@@ -1,0 +1,229 @@
+# i3 config file (v4)
+# For full documentation, see http://i3wm.org/docs/userguide.html
+
+# Set mod key (Mod1=<Alt>, Mod4=<Super>)
+set $mod Mod4
+
+# Font for window titles and bar
+font pango:JetBrains Mono Nerd Font 10
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# Set default border style
+default_border pixel 2
+default_floating_border normal
+hide_edge_borders smart
+
+# Enable gaps (requires i3-gaps)
+gaps inner 10
+gaps outer 10
+
+# Smart gaps (gaps disabled when only one window)
+smart_gaps on
+
+# Set colors (modify these to your preference)
+set $bg-color            #282c34
+set $inactive-bg-color   #3b4048
+set $text-color          #abb2bf
+set $inactive-text-color #5c6370
+set $urgent-bg-color     #e06c75
+set $urgent-text-color   #ffffff
+set $focus-color         #61afef
+set $border-color        #3b4048
+
+
+# Class definitions for applications
+set $terminal kitty
+set $file_manager pcmanfm
+set $browser firefox
+
+# Start applications
+bindsym $mod+Return exec $terminal
+bindsym $mod+Shift+e exec $file_manager
+bindsym $mod+Shift+b exec $browser
+
+# Program launcher (dmenu)
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme Arc-Dark -font "JetBrains Mono 10"
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus (vim-style)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Split orientation
+bindsym $mod+v split vertical
+bindsym $mod+b split horizontal
+
+# Toggle fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Focus parent container
+bindsym $mod+a focus parent
+
+# Switch to workspace
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
+set $ws4 "4: "
+set $ws5 "5: "
+set $ws6 "6: "
+set $ws7 "7: "
+set $ws8 "8: "
+set $ws9 "9: "
+set $ws10 "10: "
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart i3 inplace
+bindsym $mod+Shift+r restart
+
+# Exit i3 (logs you out of your X session)
+# bindsym $mod+Shift+e exec --no-startup-id i3-nagbar -t warning -m 'Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'
+
+# Screen brightness controls (adjust commands for your setup)
+# bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# Volume controls (adjust commands for your setup)
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+ unmute; exec notify-send 'Volume Up'
+bindsym XF86AudioLowerVolume exec amixer set Master 5%- unmute; exec notify-send 'Volume Down'
+bindsym XF86AudioMute exec amixer set Master toggle; exec notify-send 'Toggle Mute'
+
+# Lock screen
+# bindsym $mod+Shift+l exec --no-startup-id i3lock -c 000000
+
+# Status bar configuration
+bar {
+    status_command i3status
+    font pango:JetBrains Mono Nerd Font 10
+    position bottom
+
+    colors {
+        background $bg-color
+        statusline $text-color
+        separator  $inactive-bg-color
+
+        focused_workspace  $focus-color $focus-color $bg-color
+        active_workspace   $bg-color $bg-color $text-color
+        inactive_workspace $bg-color $bg-color $inactive-text-color
+        urgent_workspace   $urgent-bg-color $urgent-bg-color $urgent-text-color
+    }
+}
+
+# Autostart applications
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id picom -b
+exec --no-startup-id nm-applet
+exec --no-startup-id volumeicon
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id dunst
+
+# Floating windows
+for_window [window_type="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable
+
+# Focus urgent windows automatically
+for_window [urgent=latest] focus
+
+# Window colors
+#client.focused          $focus-color $focus-color $bg-color     $text-color   $focus-color
+#client.focused_inactive $border-color $border-color $bg-color   $inactive-text-color $border-color
+#client.unfocused        $border-color $border-color $bg-color   $inactive-text-color $border-color
+#client.urgent           $urgent-bg-color $urgent-bg-color $urgent-text-color $bg-color $urgent-bg-color
+
+# Resize window mode
+bindsym $mod+r mode "resize"
+# Alternar o Redshift (Modo Noturno)
+bindsym $mod+Shift+n exec --no-startup-id ~/scripts/toggle-redshift.sh
+mode "resize" {
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
+
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
+
+    # Exit resize mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Gaps toggle mode
+set $mode_gaps Gaps: (t)oggle, (r)eset
+bindsym $mod+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+    bindsym t gaps inner toggle 10
+    bindsym r gaps inner set 10; gaps outer set 10
+
+    # Exit gaps mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+
+# Mover janela para o monitor à direita
+bindsym $mod+Shift+Right move window to output right
+
+# Mover janela para o monitor à esquerda
+bindsym $mod+Shift+Left move window to output left
+
+# Focar no monitor à direita
+bindsym $mod+Ctrl+Right focus output right
+
+# Focar no monitor à esquerda
+bindsym $mod+Ctrl+Left focus output left
+
+# Mover workspace para o monitor à direita
+bindsym $mod+Shift+Ctrl+Right move workspace to output right
+
+# Mover workspace para o monitor à esquerda
+bindsym $mod+Shift+Ctrl+Left move workspace to output left
