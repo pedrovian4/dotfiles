@@ -1,0 +1,180 @@
+set $mod Mod4
+
+set $i3lockwall i3lock -i /home/pedro-viana/Documents/Wallpapers/cityscape-anime-inspired-urban-area.jpg
+
+font pango:JetBrains Mono Nerd Font 10
+
+floating_modifier $mod
+
+default_border pixel 1
+default_floating_border normal
+hide_edge_borders smart
+
+gaps inner 5
+gaps outer 5
+
+smart_gaps on
+
+set $bg-color            #282c34
+set $inactive-bg-color   #3b4048
+set $text-color          #abb2bf
+set $inactive-text-color #5c6370
+set $urgent-bg-color     #e06c75
+set $urgent-text-color   #ffffff
+set $focus-color         #61afef
+set $border-color        #3b4048
+
+
+set $terminal kitty
+set $file_manager pcmanfm
+set $browser firefox
+
+bindsym $mod+Return exec $terminal
+bindsym $mod+Shift+e exec $file_manager
+bindsym $mod+Shift+b exec $browser
+
+
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme Arc-Dark -font "JetBrains Mono 10"
+
+bindsym $mod+Shift+q kill
+
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+v split vertical
+bindsym $mod+b split horizontal
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+a focus parent
+
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
+set $ws4 "4: "
+set $ws5 "5: "
+set $ws6 "6: "
+set $ws7 "7: "
+set $ws8 "8: "
+set $ws9 "9: "
+set $ws10 "10: "
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+bindsym $mod+Shift+c reload
+
+bindsym $mod+Shift+r restart
+
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+ unmute; exec notify-send 'Volume Up'
+bindsym XF86AudioLowerVolume exec amixer set Master 5%- unmute; exec notify-send 'Volume Down'
+bindsym XF86AudioMute exec amixer set Master toggle; exec notify-send 'Toggle Mute'
+
+bindsym $mod+Shift+y exec i3lock & 
+
+bar {
+    status_command i3status
+    font pango:JetBrains Mono Nerd Font 10
+    position bottom
+
+    colors {
+        background $bg-color
+        statusline $text-color
+        separator  $inactive-bg-color
+
+        focused_workspace  $focus-color $focus-color $bg-color
+        active_workspace   $bg-color $bg-color $text-color
+        inactive_workspace $bg-color $bg-color $inactive-text-color
+        urgent_workspace   $urgent-bg-color $urgent-bg-color $urgent-text-color
+    }
+}
+
+exec --no-startup-id nitrogen --restore
+exec --no-startup-id picom -b
+exec --no-startup-id nm-applet
+exec --no-startup-id volumeicon
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id dunst
+
+for_window [window_type="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable
+
+for_window [urgent=latest] focus
+
+bindsym $mod+r mode "resize"
+bindsym $mod+Shift+n exec --no-startup-id ~/scripts/toggle-redshift.sh
+
+bindsym $mod+Ctrl+k exec --no-startup-id ~/scripts/toggle_keyboard.sh
+bindsym $mode+Alt+e exec --no-startup-id emote
+bindsym Ctrl+Shift+r exec --no-startup-id flameshot gui
+
+mode "resize" {
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
+
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $mode_gaps Gaps: (t)oggle, (r)eset
+bindsym $mod+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+    bindsym t gaps inner toggle 10
+    bindsym r gaps inner set 10; gaps outer set 10
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+Right move window to output right
+
+bindsym $mod+Shift+Left move window to output left
+
+bindsym $mod+Ctrl+Right focus output right
+
+bindsym $mod+Ctrl+Left focus output left
+
+bindsym $mod+Shift+Ctrl+Right move workspace to output right
+
+bindsym $mod+Shift+Ctrl+Left move workspace to output left

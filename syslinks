@@ -1,0 +1,3 @@
+ls -s ~/dotfiles/i3 ~/.i3
+ls -s ~/dotfiles/nvim ~/..config/nvim
+ls -s ~/dotfiles/tmux.conf ~/..tmux.conf
