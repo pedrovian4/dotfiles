@@ -29,4 +29,7 @@ return {
     {
         "ramojus/mellifluous.nvim",
     },
+    {
+        "aliqyan-21/darkvoid.nvim",
+    },
 }
